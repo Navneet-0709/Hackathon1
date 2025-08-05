@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git 'https://github.com/Navneet-0709/Hackathon1.git'
+        git 'https://github.com/Navneet-0709/Hackathon1.git', branch: 'main'
       }
     }
 
