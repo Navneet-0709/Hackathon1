@@ -32,7 +32,7 @@ pipeline {
       steps {
         sshagent(['Jenkins-agent']) {
           sh '''
-            ssh -o StrictHostKeyChecking=no ubuntu@3.92.237.85 '
+            ssh -o StrictHostKeyChecking=no ubuntu@13.221.82.84 '
               cd ~/hackathon1 &&
               docker stack deploy -c docker-compose.yml todoapp
             '

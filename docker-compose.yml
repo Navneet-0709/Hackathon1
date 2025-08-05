@@ -1,19 +1,19 @@
+version: '3.8'
+
 services:
   web:
     image: saiif/todo-app:latest
     ports:
-      - "80:5000"
+      - "80:5000"  # ← Map container's port 5000 to host's port 80
     environment:
       DB_HOST: db
       DB_USER: root
       DB_PASSWORD: 1234
       DB_NAME: todo
-    #deploy:
-     # placement:
-      #  constraints: [node.role == worker]
-      #replicas: 3
-      #restart_policy:
-       # condition: on-failure
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
     depends_on:
       - db
     networks:
@@ -28,3 +28,9 @@ services:
       - db-data:/var/lib/mysql
     networks:
       - todo-net
+
+volumes:
+  db-data:
+
+networks:
+  todo-net:
