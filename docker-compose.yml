@@ -8,12 +8,12 @@ services:
       DB_USER: root
       DB_PASSWORD: 1234
       DB_NAME: todo
-    deploy:
-      placement:
-        constraints: [node.role == worker]
-      replicas: 3
-      restart_policy:
-        condition: on-failure
+    #deploy:
+     # placement:
+      #  constraints: [node.role == worker]
+      #replicas: 3
+      #restart_policy:
+       # condition: on-failure
     depends_on:
       - db
     networks:
@@ -26,8 +26,5 @@ services:
       MYSQL_DATABASE: todo
     volumes:
       - db-data:/var/lib/mysql
-    deploy:
-      placement:
-        constraints: [node.role == worker]
     networks:
       - todo-net
