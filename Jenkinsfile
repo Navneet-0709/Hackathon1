@@ -28,23 +28,17 @@ pipeline {
       }
     }
 
-stage('Deploy to Docker Swarm') {
-  steps {
-    sshagent(['Jenkins-agent']) {
-      sh '''
-        ssh -o StrictHostKeyChecking=no ubuntu@3.92.237.85 << EOF
-          echo "Switching to project directory..."
-          cd ~/hackathon1
-
-          echo "Removing old stack..."
-          docker stack rm todoapp
-          sleep 10
-
-          echo "Deploying new stack..."
-          docker stack deploy -c docker-compose.yml todoapp
-        EOF
-      '''
+    stage('Deploy to Docker Swarm') {
+      steps {
+        sshagent(['Jenkins-agent']) {
+          sh '''
+            ssh -o StrictHostKeyChecking=no ubuntu@3.92.237.85 '
+              cd ~/hackathon1 &&
+              docker stack deploy -c docker-compose.yml todoapp
+            '
+          '''
+        }
+      }
     }
   }
 }
-
