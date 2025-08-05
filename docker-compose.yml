@@ -1,10 +1,13 @@
-version: "3.8"
-
 services:
   web:
     image: saiif/todo-app:latest
     ports:
       - "80:5000"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: 1234
+      DB_NAME: todo
     deploy:
       placement:
         constraints: [node.role == worker]
@@ -20,14 +23,11 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: mytododb
+      MYSQL_DATABASE: todo
     volumes:
       - db-data:/var/lib/mysql
+    deploy:
+      placement:
+        constraints: [node.role == worker]
     networks:
       - todo-net
-
-volumes:
-  db-data:
-
-networks:
-  todo-net:
