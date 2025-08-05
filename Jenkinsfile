@@ -30,7 +30,7 @@ pipeline {
 
     stage('Deploy to Swarm') {
       steps {
-        sshagent(['swarm-ssh']) {
+        sshagent(['Jenkins-agent']) {
           sh 'ssh -o StrictHostKeyChecking=no ubuntu@3.92.237.85 "docker stack deploy -c ./docker-compose.yml todoapp"'
         }
       }
