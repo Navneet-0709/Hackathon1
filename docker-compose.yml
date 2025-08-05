@@ -1,27 +1,36 @@
-version: '3.8'
+version: "3.8"
 
 services:
   web:
-    build: .
-    container_name: flask_app
+    image: saiif/todo-app:latest
     ports:
-      - "5000:5000"
-    env_file:
-      - .env
+      - "80:5000"
+    deploy:
+      placement:
+        constraints: [node.role == worker]
+      replicas: 3
+      restart_policy:
+        condition: on-failure
     depends_on:
       - db
+    networks:
+      - todo-net
 
   db:
     image: mysql:5.7
-    container_name: mysql_db
-    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 1234
-      MYSQL_DATABASE: mytododb
+      MYSQL_DATABASE: todo
     volumes:
-      - db_data:/var/lib/mysql
-      - ./todo-db.sql:/docker-entrypoint-initdb.d/todo-db.sql
+      - db-data:/var/lib/mysql
+    deploy:
+      placement:
+        constraints: [node.role == worker]
+    networks:
+      - todo-net
 
 volumes:
-  db_data:
+  db-data:
 
+networks:
+  todo-net:
