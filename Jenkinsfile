@@ -9,7 +9,7 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        git url: 'https://github.com/Navneet-0709/Hackathon1.git' , branch: 'main'
+        git url: 'https://github.com/Navneet-0709/Hackathon1.git', branch: 'main'
       }
     }
 
@@ -28,10 +28,15 @@ pipeline {
       }
     }
 
-    stage('Deploy to Swarm') {
+    stage('Deploy to Docker Swarm') {
       steps {
         sshagent(['Jenkins-agent']) {
-          sh 'ssh -o StrictHostKeyChecking=no ubuntu@3.92.237.85 "docker stack deploy -c docker-compose.yml todoapp"'
+          sh '''
+            ssh -o StrictHostKeyChecking=no ubuntu@3.92.237.85 '
+              cd ~/hackathon1 &&
+              docker stack deploy -c docker-compose.yml todoapp
+            '
+          '''
         }
       }
     }
